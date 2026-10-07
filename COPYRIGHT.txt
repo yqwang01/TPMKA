@@ -1,0 +1,13 @@
+TPMKA Copyright Notice
+
+Project: TPMKA
+Copyright (C) 2026 Duke University and the Regents of the University of Michigan.
+
+Primary Copyright Holder:
+- 2026 Duke University and the Regents of the University of Michigan.
+
+Contact:
+- Yiqing Wang <yq.wang@duke.edu>
+
+Contributors:
+- See the repository history and manuscript author list.

@@ -1,0 +1,12 @@
+fairlearn
+matplotlib
+numpy
+opencv-python
+pandas
+pillow
+scikit-learn
+scipy
+timm
+torch
+torchvision
+tqdm
