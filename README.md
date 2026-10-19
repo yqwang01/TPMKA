@@ -1,6 +1,6 @@
 # TPMKA
 
-Triple-Phase Multimodal Knowledge Aggregation (TPMKA) is a PyTorch framework for bacterial-versus-fungal microbial keratitis subtype diagnosis from slit-lamp photography. The framework follows the paper "Triple-Phase Multimodal Knowledge Aggregation Framework for Microbial Keratitis Subtype Diagnosis on Slit-Lamp Photography".
+Triple-Phase Multimodal Knowledge Aggregation (TPMKA) is a PyTorch framework for patient-level bacterial-versus-fungal microbial keratitis classification using multimodal slit-lamp photography and clinical information. This repository accompanies the manuscript "Multimodal Knowledge Aggregation for Microbial Keratitis: Geographic Confounding and Shortcut Risk in Pooled Multicountry Data."
 
 Project repository: [https://github.com/yqwang01/TPMKA](https://github.com/yqwang01/TPMKA)
 
@@ -12,11 +12,13 @@ TPMKA uses up to three slit-lamp illumination modalities:
 
 The training pipeline has three phases:
 
-1. Cross-Modality Contrastive Learning (CMCL) pretraining to learn modality-invariant patient representations.
+1. Cross-modality contrastive learning (CMCL) to encourage agreement between representations of images from the same patient.
 2. Modality-specific fine-tuning for each illumination condition.
-3. Feature-level multimodal ensemble learning for patient-level prediction, with missing modalities handled by zero-initialized feature vectors.
+3. Multilayer perceptron (MLP)-based feature fusion of the fixed modality-specific representations and seven clinical variables for patient-level prediction. Missing modalities are represented by zero feature vectors.
 
-The manuscript reports five-fold cross-validation on 1,645 patients and 17,158 images, with a PVT_v2_b1 backbone reaching 85.84% accuracy, 84.46% average F1-score, and 0.885 AUC. The clinical dataset is not included in this repository because of patient privacy restrictions and data-use agreements.
+The manuscript reports evaluation with five patient-disjoint outer folds on 1,645 patients and 17,158 images. TPMKA achieved five-fold mean overall performance of 83.06% macro-F1, 84.50% accuracy, and 89.93% area under the receiver operating characteristic curve (AUROC). Within-country AUROC was 83.92% in India and 66.96% in the United States. Because organism frequencies differed substantially between countries, the pooled results should be interpreted together with the country- and class-specific analyses reported in the manuscript.
+
+The clinical dataset is not included in this repository because of patient privacy restrictions and data-use agreements. This software is intended for research use and is not a clinical diagnostic device.
 
 ## Repository Layout
 
@@ -58,7 +60,7 @@ data/
         `-- W/
 ```
 
-The CSV is expected to contain modality availability columns, the patient identifier, the class label, optional site information, and metadata variables used by `config.var_idx` and `config.sen_attr_idx`. See `data_loader.py` for the exact indexing used by the current experiments.
+The CSV is expected to contain modality-availability columns, a patient identifier, a bacterial-or-fungal class label, country information, and the metadata variables selected by `config.var_idx` and `config.sen_attr_idx`. The seven clinical variables used in the manuscript were country, contact-lens use, trauma history, organic-material exposure, water exposure, presenting corrected visual acuity, and uncorrected visual acuity. See `data_loader.py` and `config.py` for the exact indexing expected by the code.
 
 ## Configuration
 
@@ -124,7 +126,7 @@ If you use this code, please cite the TPMKA manuscript after publication.
 
 ```bibtex
 @article{wang2026tpmka,
-  title = {Triple-Phase Multimodal Knowledge Aggregation Framework for Microbial Keratitis Subtype Diagnosis on Slit-Lamp Photography},
+  title = {Multimodal Knowledge Aggregation for Microbial Keratitis: Geographic Confounding and Shortcut Risk in Pooled Multicountry Data},
   author = {Wang, Yiqing and Woodward, Maria A. and Yang, Ziyun and others},
   year = {2026},
   note = {Manuscript under review}
